@@ -1,0 +1,49 @@
+.tag-manager {
+  display: flex;
+  flex-direction: column;
+  &__header {
+    height: 60px;
+    flex-shrink: 0;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    &--input-wraper {
+      background-color: #F4F4F4;
+      border-radius: 4px;
+      width: 540px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      svg {
+        color: #9B9B9B;
+        font-size: 18px;
+        position: absolute;
+        left: 12px;
+      }
+      input {
+        border: none;
+        outline: none;
+        height: 100%;
+        background-color: #F4F4F4;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        width: 100%;
+        padding-left: 35px;
+      }
+    }
+  }
+  &__controls {
+    border-top: 1px solid #CFCFCF;
+    height: 78px;
+    flex-shrink: 0;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+  }
+  &__table {
+    flex: 1;
+  }
+}
