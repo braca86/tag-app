@@ -15,7 +15,7 @@
       <span>actions</span>
     </div>
     <div class="tag-manager-table__rows">
-      <table-row v-for="tag in tags" :row-data="tag" :key="tag.id" />
+      <table-row v-for="tag in tagsOnCurrentPage" :row-data="tag" :key="tag.id" />
     </div>
     <div class="tag-manager-table__pagination">
       <table-pagination />
@@ -37,18 +37,18 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'tags'
+      "tagsOnCurrentPage"
     ]),
     isAllSelected() {
-      return this.tags.length && this.tags.findIndex(item => !item.selected) === -1
+      return this.tagsOnCurrentPage.length && this.tagsOnCurrentPage.findIndex(item => !item.selected) === -1
     }
   },
   methods: {
     sortByDateCreated() {
-      this.$store.dispatch('sortTagsByDateCreated');
+      this.$store.dispatch("sortTagsByDateCreated");
     },
     checkboxClickHandler(e) {
-      this.$store.dispatch('bulkSelectDeselectTags', e);
+      this.$store.dispatch("bulkSelectDeselectTags", e.target.checked);
     }
   }
 }

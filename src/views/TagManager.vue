@@ -50,16 +50,16 @@ export default {
     ...mapGetters([
       "showModal",
       "tagsForDelete",
-      "tags"
+      "tagsOnCurrentPage"
     ]),
     deleteBtnDisabled() {
-      return this.tags.findIndex(item => item.selected) === -1
+      return this.tagsOnCurrentPage.findIndex(item => item.selected) === -1
     }
   },
   methods: {
     deleteBtnClick() {
       const tagsForDelete = [];
-      for (let item of this.tags) {
+      for (let item of this.tagsOnCurrentPage) {
         if (item.selected) tagsForDelete.push(item.id)
       }
       this.$store.dispatch('triggerDeleteModal', tagsForDelete);

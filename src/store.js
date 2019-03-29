@@ -8,14 +8,19 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     tags: tags,
+    tagsOnCurrentPage: [],
     colorPalette: colors,
     activeTagId: null,
     showModal: false,
-    tagsForDelete: []
+    tagsForDelete: [],
+    paginationOptions: {}
   },
   getters: {
     tags: state => {
       return state.tags;
+    },
+    tagsOnCurrentPage: state => {
+      return state.tagsOnCurrentPage;
     },
     colorPalette: state => {
       return state.colorPalette;
@@ -32,11 +37,17 @@ export default new Vuex.Store({
     },
     tagsForDelete: state => {
       return state.tagsForDelete;
+    },
+    paginationOptions: state => {
+      return state.paginationOptions;
     }
   },
   mutations: {
     setTagsData: (state, data) => {
       state.tags = data;
+    },
+    setTagsForCurrentPage: (state, data) => {
+      state.tagsOnCurrentPage = data;
     },
     setActiveTagId: (state, id) => {
       state.activeTagId = id;
@@ -46,10 +57,13 @@ export default new Vuex.Store({
     },
     setTagsForDelete: (state, value) => {
       state.tagsForDelete = value;
+    },
+    setPaginationOptions: (state, value) => {
+      state.paginationOptions = value;
     }
   },
   actions: {
-    toggleColorPalette: ({ getters, commit }, tagId) => {
+    toggleColorPalette: ({ getters, commit, dispatch }, tagId) => {
       const tagsCopy = [];
       for (let item of getters.tags) {
         tagsCopy.push({ ...item });
@@ -65,8 +79,9 @@ export default new Vuex.Store({
       }
       commit("setTagsData", tagsCopy);
       commit("setActiveTagId", tagId);
+      dispatch("handlePagination");
     },
-    setNewColor: ({ getters, commit }, newColor) => {
+    setNewColor: ({ getters, commit, dispatch }, newColor) => {
       const tagsCopy = [];
       for (let item of getters.tags) {
         tagsCopy.push({ ...item });
@@ -78,8 +93,9 @@ export default new Vuex.Store({
       tagsCopy[activeItemIndex].showPalette = false;
       commit("setTagsData", tagsCopy);
       commit("setActiveTagId", null);
+      dispatch("handlePagination");
     },
-    sortTagsByDateCreated: ({ getters, commit }) => {
+    sortTagsByDateCreated: ({ getters, commit, dispatch }) => {
       const tagsCopy = [];
       for (let item of getters.tags) {
         tagsCopy.push({ ...item });
@@ -88,6 +104,7 @@ export default new Vuex.Store({
         (a, b) => new Date(a.date_created) - new Date(b.date_created)
       );
       commit("setTagsData", tagsCopy);
+      dispatch("handlePagination");
     },
     changeModalState: ({ commit }, value) => {
       commit("setShowModalState", value);
@@ -102,8 +119,9 @@ export default new Vuex.Store({
       );
       commit("setTagsData", tags);
       dispatch("changeModalState", false);
+      dispatch("handlePagination");
     },
-    selectDeselectTag: ({ getters, commit }, { event, tagId }) => {
+    selectDeselectTag: ({ getters, commit, dispatch }, { event, tagId }) => {
       const tagsCopy = [];
       for (let item of getters.tags) {
         tagsCopy.push({ ...item });
@@ -111,16 +129,38 @@ export default new Vuex.Store({
       const clickedItemIndex = tagsCopy.findIndex(item => item.id === tagId);
       tagsCopy[clickedItemIndex].selected = event.target.checked;
       commit("setTagsData", tagsCopy);
+      dispatch("handlePagination");
     },
-    bulkSelectDeselectTags: ({ getters, commit }, event) => {
+    bulkSelectDeselectTags: ({ getters, commit, dispatch }, value) => {
+      const displayedTagsIds = [];
+      for (let item of getters.tagsOnCurrentPage) {
+        displayedTagsIds.push(item.id);
+      }
       const tagsCopy = [];
       for (let item of getters.tags) {
-        tagsCopy.push({
-          ...item,
-          selected: event.target.checked
-        });
+        tagsCopy.push({ ...item });
+      }
+      for (let item of tagsCopy) {
+        if (displayedTagsIds.includes(item.id)) {
+          item.selected = value;
+        }
       }
       commit("setTagsData", tagsCopy);
+      dispatch("handlePagination");
+    },
+    setPaginationOptions: ({ commit }, data) => {
+      commit("setPaginationOptions", data);
+    },
+    handlePagination: ({ getters, commit }) => {
+      const from =
+        getters.paginationOptions.currentPage *
+          getters.paginationOptions.perPage -
+        getters.paginationOptions.perPage;
+      const to =
+        getters.paginationOptions.currentPage *
+        getters.paginationOptions.perPage;
+      const tags = getters.tags.slice(from, to);
+      commit("setTagsForCurrentPage", tags);
     }
   }
 });

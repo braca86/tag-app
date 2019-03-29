@@ -209,10 +209,33 @@
             color: #3E4543;
             text-transform: uppercase;
             font-size: 12px;
+            position: relative;
             .number {
               color: #00A88D;
               font-weight: 700;
               margin-left: 5px;
+              cursor: pointer;
+            }
+            &--dropdown {
+              position: absolute;
+              background-color: #FFFFFF;
+              border: 1px solid #CFCFCF;
+              border-radius: 4px;
+              box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.3);
+              left: 95px;
+              bottom: 0px;
+              z-index: 2;
+              padding: 10px;
+              div {
+                cursor: pointer;
+                &.active {
+                  color: #00A88D;
+                  font-weight: 700;
+                }
+                &:hover {
+                  font-weight: 700;
+                }
+              }
             }
           }
           &__controls {
@@ -223,6 +246,10 @@
               font-size: 18px;
               cursor: pointer;
               margin: 0 2px;
+              &.disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+              }
             }
             &--pages {
               margin: 0 4px;
