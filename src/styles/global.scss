@@ -33,6 +33,7 @@ input {
     line-height: 18px;
     width: 112px;
     height: 38px;
+    cursor: pointer;
     &:hover {
       opacity: 0.8;
     }
@@ -47,6 +48,127 @@ input {
       background-color: #CF202E;
       &:focus {
         background-color: red;
+      }
+    }
+  }
+}
+
+.tag-checkbox {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  height: 17px;
+  width: 17px;
+  // user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 17px;
+    width: 17px;
+    border: 1px solid #9B9B9B;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 4px;
+      top: 1px;
+      width: 4px;
+      height: 9px;
+      border: solid #FFFFFF;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+  &.checked {
+    color: #0490D2;
+    .checkmark {
+      border-color: #00A88D;
+      background-color: #00A88D;
+      &:after {
+        display: block;
+      }
+    }
+  }
+}
+
+
+.modal {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__backdrop {
+    background-color: #000000;
+    opacity: 0.3;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  &__dialog {
+    z-index: 11;
+    background-color: #FFFFFF;
+    width: 500px;
+    &--header {
+      height: 60px;
+      background-color: #F4F4F4;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #CFCFCF;
+      .title {
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+      .close-icon {
+        color: #9B9B9B;
+        font-size: 18px;
+        cursor: pointer;
+      }
+    }
+    &--controls {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border-top: 1px solid #CFCFCF;
+      button {
+        width: 150px;
+        height: 59px;
+        border: none;
+        font-size: 16px;
+        font-weight: 700;
+        background-color: #FFFFFF;
+        text-transform: capitalize;
+        cursor: pointer;
+        outline: none;
+        &.cancel-btn {
+          color: #9B9B9B;
+        }
+        &.confirm-btn {
+          color: #FFFFFF;
+        }
+        &.delete-btn {
+          background-color: #CF202E;
+        }
+        &:hover {
+          opacity: 0.8;
+        }
       }
     }
   }

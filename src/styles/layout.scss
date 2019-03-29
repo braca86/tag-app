@@ -1,6 +1,7 @@
 #app {
   display: flex;
   height: 100vh;
+  min-height: 450px;
   .side-menu {
     background-color: #E1E7E9;
     width: 250px;
@@ -36,10 +37,10 @@
         font-weight: 700;
         line-height: 42px;
         &.router-link-exact-active{
-          color: #3E4543;
+          color: #00A88D;
         }
         &:hover {
-          opacity: 0.8;
+          color: #3E4543;
         }
         svg {
           margin-right: 16px;
